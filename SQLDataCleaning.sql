@@ -1,14 +1,9 @@
 /* Cleaning Data Using SQL Queries */
 
-
-
-
 Select*
 From Project..dbo.NashvilleHousing
 
-
-
---Stardardize Date Format
+-- Stardardize Date Format
 Select SaleDateConverted, convert(date, SaleDate)
 From Project..NashvilleHousing
 
@@ -21,7 +16,7 @@ Add SaleDateConverted Date;
 Update NashvilleHousing
 Set SaleDateConverted = CONVERT(date, SaleDate)
 
--- Populate Property Adress data (Colocar a informação do endereço a partir de um ponto de Referência)
+-- Populate Property Adress data 
 
 Select *
 From Project..NashvilleHousing
@@ -29,7 +24,7 @@ From Project..NashvilleHousing
 order by ParcelID
 
 
-Select A.ParcelID, A.PropertyAddress, B.ParcelID, B.PropertyAddress, isnull(A.PropertyAddress, B.PropertyAddress) /*Quando A.PropertyAdress for Null, vai Colocar a informação de B.PropertyAdress */
+Select A.ParcelID, A.PropertyAddress, B.ParcelID, B.PropertyAddress, isnull(A.PropertyAddress, B.PropertyAddress) /*Quando A.PropertyAdress for Null, vai Colocar a informaÃ§Ã£o de B.PropertyAdress */
 From Project..NashvilleHousing A
 join Project..NashvilleHousing B
 	on A.ParcelID=B.ParcelID
@@ -44,13 +39,13 @@ join Project..NashvilleHousing B
 	and A.[UniqueID ]<>B.[UniqueID ]
 	Where A.PropertyAddress is null
 
-Select A.ParcelID, A.PropertyAddress, B.ParcelID, B.PropertyAddress, isnull(A.PropertyAddress, B.PropertyAddress) /*Quando A.PropertyAdress for Null, vai Colocar a informação de B.PropertyAdress */
+Select A.ParcelID, A.PropertyAddress, B.ParcelID, B.PropertyAddress, isnull(A.PropertyAddress, B.PropertyAddress) /*Quando A.PropertyAdress for Null, vai Colocar a informaÃ§Ã£o de B.PropertyAdress */
 From Project..NashvilleHousing A
 join Project..NashvilleHousing B
 	on A.ParcelID=B.ParcelID
 	and A.[UniqueID ]<>B.[UniqueID ]
 
---Breaking Out Address into Individual Columns (Address, City, State)
+-- Breaking Out Address into Individual Columns (Address, City, State)
 
 Select PropertyAddress
 From Project..NashvilleHousing
@@ -58,7 +53,7 @@ From Project..NashvilleHousing
 --order by ParcelID
 
 Select
-SUBSTRING (PropertyAddress, 1, CHARINDEX(',', PropertyAddress)-1/* -1 Tira a vírgula do endereço*/) as Address /*Charindex procura um valor específico*/
+SUBSTRING (PropertyAddress, 1, CHARINDEX(',', PropertyAddress)-1/* -1 Tira a vÃ­rgula do endereÃ§o*/) as Address /*Charindex procura um valor especÃ­fico*/
 , SUBSTRING (PropertyAddress,CHARINDEX(',', PropertyAddress)+1, LEN(PropertyAddress)) as City
 
 From Project..NashvilleHousing
@@ -110,10 +105,7 @@ Set OwnerSplitState = PARSENAME(Replace(OwnerAddress,',','.'), 1)
 Select *
 From Project..NashvilleHousing
 
-
-
 -- Change Y and N to Yes and No in "Sold as Vacant" Field
-
 
 Select distinct(SoldAsVacant), count(SoldAsVacant)
 From Project..NashvilleHousing
@@ -138,8 +130,6 @@ Select distinct(SoldAsVacant), count(SoldAsVacant)
 From Project..NashvilleHousing
 Group by SoldAsVacant
 Order by 2
-
-
 
 -- Remove Duplicates
 
@@ -201,8 +191,6 @@ Select*
 from RowNumCTE
 Where row_num>1
 Order by PropertyAddress
-
-
 
 --Delete Unused Columns
 
